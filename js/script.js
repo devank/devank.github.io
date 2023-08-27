@@ -2,12 +2,13 @@ const btnStart=document.querySelector('.start');
 const btnStop=document.querySelector('.stop');
 const btnReset=document.querySelector('.reset');
 
-let hrs=min=sec=ms=0,startTimer;
+let hrs=min=sec=ms=0,startTimer,amount,startTime;
 
 btnStart.addEventListener('click',()=>{
 
   btnStart.classList.add('start-active');
   btnStop.classList.remove('stop-active');
+  startTime = new Date();
 
   startTimer=setInterval(()=>{
     ms++;//ms=ms+1;
@@ -31,7 +32,21 @@ btnStop.addEventListener('click',()=>{
   clearInterval(startTimer);
   btnStart.classList.remove('start-active');
   btnStop.classList.add('stop-active');
-
+  var stopTime = new Date();
+  var difference = stopTime.getTime() - startTime.getTime();
+  amount = (difference / 1000 /60 /60)*120;
+  var decPart = (amount+"").split(".")[1].slice(0,2);
+  var pamount= Math.floor(amount);
+  var damount = pamount;
+  if (pamount < 100) {
+    if (pamount < 10){
+      damount = '00'+pamount;
+    } else {
+      damount = '0'+pamount;
+    }
+  }
+  document.querySelector('.rs').innerText=damount;
+  document.querySelector('.ps').innerText=decPart;
 });
 
 btnReset.addEventListener('click',()=>{
@@ -40,6 +55,8 @@ btnReset.addEventListener('click',()=>{
   updateDisplay();
   btnStart.classList.remove('start-active');
   btnStop.classList.remove('stop-active');
+  document.querySelector('.rs').innerText='000';
+  document.querySelector('.ps').innerText='00';
 });
 
 
